@@ -1899,7 +1899,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      title: ''
+    };
+  },
+  methods: {
+    addPost: function addPost() {
+      var _this = this;
+
+      axios.post('./api/posts', this.title).then(function (response) {
+        console.log(response);
+        _this.title = '';
+      })["catch"](function (error) {
+        console.error("something wrong happened");
+      });
+    }
+  },
   mounted: function mounted() {
     console.log('Component mounted.');
   }
@@ -37862,28 +37883,40 @@ var render = function() {
             _c(
               "form",
               {
+                staticClass: "form",
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.addTask($event)
+                    return _vm.addPost($event)
                   }
                 }
               },
               [
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    name: "title",
-                    placeholder: "Enter Title"
-                  }
-                }),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.title,
+                        expression: "title"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Enter Title" },
+                    domProps: { value: _vm.title },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.title = $event.target.value
+                      }
+                    }
+                  })
+                ]),
                 _vm._v(" "),
-                _c("input", {
-                  staticClass:
-                    "btn btn-primary form-control btn-sm d-inline-block p-2",
-                  attrs: { type: "submit", value: "Submit" }
-                })
+                _vm._m(0)
               ]
             )
           ])
@@ -37892,7 +37925,19 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        staticClass: "btn btn-primary form-control m-2",
+        attrs: { type: "submit", value: "Submit" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
